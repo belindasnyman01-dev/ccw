@@ -11,7 +11,7 @@
    Security is enforced by Firestore Rules + Google sign-in.
    ============================================================ */
 
-const firebaseConfig = {
+const firebaseConfig = {window.FIREBASE_CONFIG
   apiKey: "AIzaSyBAHLeqXjNkZjxAoWWElAYVjZ6mXH4-fu8",
   authDomain: "ccw2026-1b331.firebaseapp.com",
   projectId: "ccw2026-1b331",
