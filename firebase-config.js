@@ -23,4 +23,4 @@ const firebaseConfig = {window.FIREBASE_CONFIG
 /* Restrict sign-in to your company. Any email CONTAINING this string is
    allowed. Use the bare word "datavoice" to allow all Datavoice domains,
    or set an exact domain like "datavoice.co.za" to be strict. */
-window.ALLOWED_DOMAIN = "datavoice";
+window.ALLOWED_DOMAIN = "jasco";
