@@ -11,13 +11,13 @@
    Security is enforced by Firestore Rules + Google sign-in.
    ============================================================ */
 
-window.FIREBASE_CONFIG = {
-  apiKey: "PASTE_API_KEY",
-  authDomain: "PASTE_PROJECT.firebaseapp.com",
-  projectId: "PASTE_PROJECT_ID",
-  storageBucket: "PASTE_PROJECT.appspot.com",
-  messagingSenderId: "PASTE_SENDER_ID",
-  appId: "PASTE_APP_ID"
+const firebaseConfig = {
+  apiKey: "AIzaSyBAHLeqXjNkZjxAoWWElAYVjZ6mXH4-fu8",
+  authDomain: "ccw2026-1b331.firebaseapp.com",
+  projectId: "ccw2026-1b331",
+  storageBucket: "ccw2026-1b331.firebasestorage.app",
+  messagingSenderId: "409702335664",
+  appId: "1:409702335664:web:aa45008f9126eea2d32775"
 };
 
 /* Restrict sign-in to your company. Any email CONTAINING this string is
