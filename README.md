@@ -1,52 +1,71 @@
-# Deploy to GitHub Pages
+# CCW 2026 — Datavoice Field Companion (PWA)
 
-This bundle is ready to publish as-is. Two ways — pick one.
+An installable, offline-capable Progressive Web App for the Datavoice team at
+Critical Communications World 2026.
 
-## Option A — Deploy from a branch (simplest, no workflow)
+## What's in this folder
 
-1. Create a new repository, e.g. `ccw2026`.
-2. Upload **all** these files to the repo **root** on the `main` branch,
-   keeping the folder structure:
-   ```
-   index.html
-   sw.js
-   manifest.webmanifest
-   .nojekyll
-   icons/...
-   ```
-   (You can drag-and-drop the unzipped folder's contents in the GitHub web UI.)
-3. Repo → **Settings → Pages**.
-4. **Source:** "Deploy from a branch" → **Branch:** `main` → **Folder:** `/ (root)` → **Save**.
-5. Wait ~1 minute. Your app is live at:
-   ```
-   https://<your-username>.github.io/ccw2026/
-   ```
-6. Open that URL on your phone → install (Add to Home Screen).
+```
+index.html              ← the app
+manifest.webmanifest    ← PWA manifest (name, icons, colours)
+sw.js                   ← service worker (offline caching)
+icons/                  ← app icons (192, 512, maskable, apple-touch, favicon)
+```
 
-You can delete the `.github/` folder if you use this option.
+## Important: why it must be hosted
 
-## Option B — Deploy with Actions (auto-publish on every push)
+A service worker — the thing that makes the app installable and work offline —
+**only runs over HTTPS (or http://localhost).** It will **not** run if you just
+double-click `index.html` from your file system (`file://`). So to get the
+install button and offline mode, the folder needs to be served from a web host.
 
-1. Upload all files **including** the `.github/workflows/pages.yml` in this bundle.
-2. Repo → **Settings → Pages → Source:** select **"GitHub Actions"**.
-3. Push to `main` (or run the workflow manually under the Actions tab).
-   Every push now redeploys automatically.
+## Fastest ways to publish (pick one)
 
-## Why the relative paths matter
+**A. Netlify Drop (no account, ~30 seconds)**
+1. Go to https://app.netlify.com/drop
+2. Drag this whole folder onto the page.
+3. You get a live HTTPS link. Open it on your phone → install.
 
-GitHub project sites live under a subpath (`/ccw2026/`). The manifest, service
-worker, and icons all use **relative paths**, so everything resolves correctly
-at that subpath with zero edits.
+**B. GitHub Pages**
+1. Create a repo, upload these files (keep the folder structure).
+2. Settings → Pages → deploy from `main` branch, root.
+3. Visit the published HTTPS URL.
 
-## What Pages does and does not do
+**C. Any web server / company intranet (HTTPS)**
+   Copy the folder to a directory served over HTTPS. Done.
 
-- ✅ HTTPS hosting → the app is **installable**, **works offline**, and the
-  **QR camera** works.
-- ✅ A stable, shareable URL and version history.
-- ❌ Pages is **static** — it cannot store or sync captured data between
-  devices. Each phone keeps its own data locally.
+**D. Test locally first**
+```bash
+cd this-folder
+python3 -m http.server 8080
+# then open http://localhost:8080 (localhost counts as a secure context)
+```
 
-For real cross-device team sync (everyone seeing everyone's notes/follow-ups),
-add a backend such as **Firebase/Firestore** and point the `loadKey` / `saveKey`
-functions in `index.html` at it. Pages hosts the app; Firebase holds the shared
-data. The two work together.
+## Installing on a phone
+
+- **iPhone (Safari):** open the URL → Share → *Add to Home Screen*.
+- **Android (Chrome):** open the URL → you'll see an *Install* prompt, or use
+  the in-app **Install app** button in Profile, or the browser menu →
+  *Install app / Add to Home screen*.
+
+Once installed it launches full-screen with the DV icon and works offline.
+
+## Data & sync — how it behaves
+
+The app auto-detects where it's running:
+
+| Where it runs                | Storage                          | Team sync |
+|------------------------------|----------------------------------|-----------|
+| Hosted PWA (this bundle)     | On-device, offline, persistent   | No*       |
+| Inside Claude (artifact)     | Shared storage                   | **Yes, live** |
+
+\* For true cross-device team sync on the hosted PWA, point the storage layer
+at a backend (Firebase/Firestore is a clean drop-in — the `loadKey` / `saveKey`
+functions in `index.html` are the only thing to swap). Until then, use the
+**Export (TSV)** button in Profile to push captures into the master Google Sheet.
+
+## Login note
+
+The Datavoice-email login establishes *identity* (so captures are attributed and
+shared). Real verification of Google Drive folder membership requires Google
+Workspace SSO/OAuth on a backend; the login screen marks where that integrates.

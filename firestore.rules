@@ -1,0 +1,31 @@
+rules_version = '2';
+
+// Paste this into Firebase console -> Firestore Database -> Rules -> Publish.
+// It only lets signed-in Datavoice Google accounts read/write the shared data.
+// To lock to an exact domain, change 'datavoice' below to e.g. 'datavoice\\.co\\.za'.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedInTeam() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email.lower().matches('.*datavoice.*');
+    }
+
+    // Shared captures: notes, jots, contacts, follow-ups
+    match /captures/{id} {
+      allow read:   if signedInTeam();
+      allow create: if signedInTeam();
+      allow update: if signedInTeam();                       // any teammate can move a follow-up's status
+      allow delete: if signedInTeam()
+                    && resource.data.authorEmail == request.auth.token.email.lower(); // only the author deletes
+    }
+
+    // Personal business cards (doc id = user uid). Whole team can view; only owner edits.
+    match /cards/{uid} {
+      allow read:  if signedInTeam();
+      allow write: if signedInTeam() && uid == request.auth.uid;
+    }
+  }
+}

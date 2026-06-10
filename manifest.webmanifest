@@ -1,0 +1,22 @@
+{
+  "name": "CCW 2026 · Datavoice Field Companion",
+  "short_name": "CCW 2026",
+  "description": "Datavoice field companion for Critical Communications World 2026 — exhibitors, meetings, notes, jots, contacts and shared follow-ups.",
+  "id": "/ccw2026/",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f1416",
+  "theme_color": "#0f1416",
+  "categories": ["business", "productivity"],
+  "icons": [
+    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Capture a note", "url": "./index.html#note", "short_name": "Note" },
+    { "name": "Follow-ups", "url": "./index.html#followups", "short_name": "Actions" }
+  ]
+}
