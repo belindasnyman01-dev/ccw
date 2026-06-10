@@ -2,7 +2,7 @@ rules_version = '2';
 
 // Paste this into Firebase console -> Firestore Database -> Rules -> Publish.
 // It only lets signed-in Datavoice Google accounts read/write the shared data.
-// To lock to an exact domain, change 'datavoice' below to e.g. 'datavoice\\.co\\.za'.
+// To lock to an exact domain, change 'datavoice' below to e.g. 'jasco\\.co\\.za'.
 
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -10,7 +10,7 @@ service cloud.firestore {
     function signedInTeam() {
       return request.auth != null
         && request.auth.token.email_verified == true
-        && request.auth.token.email.lower().matches('.*datavoice.*');
+        && request.auth.token.email.lower().matches('.*jasco.*');
     }
 
     // Shared captures: notes, jots, contacts, follow-ups
